@@ -77,6 +77,10 @@ namespace Builder
                         Console.Write("[FAILED]");
                     }
                 }
+                else
+                {
+                    Console.WriteLine($"{Environment.NewLine}WARGIN! File have NO checksum! Can't check it!");
+                }
                 if(success)
                     Console.WriteLine($"{Environment.NewLine}Building successfully complated! Press any key to exit.");
                 else
