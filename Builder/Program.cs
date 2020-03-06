@@ -32,9 +32,36 @@ namespace Builder
             //End of information block
 
             Console.Write($"{Environment.NewLine}Continue building? [Y/n] >> ");
-            if(Console.ReadKey().Key == ConsoleKey.Y)
+            if (Console.ReadKey().Key == ConsoleKey.Y)
             {
-                //TODO build logic 
+                Console.Write($"{Environment.NewLine}Input RAM using range (standart - 128MB, don't be more 1GB) [bytes] >> ");
+                string temp = Console.ReadLine();
+                int ramRange = 0;
+
+                if (int.TryParse(temp, out ramRange))
+                {
+                    if (ramRange > 1073741824)
+                    {
+                        Console.WriteLine($"Invalid input, will be used standart range (128 MB).");
+                        ramRange = 134217728;
+                    }
+                }
+                else if (string.IsNullOrWhiteSpace(temp))
+                {
+                    Console.WriteLine($"Empty input, will be used standart range (128 MB).");
+                    ramRange = 134217728;
+                }
+                else
+                {
+                    Console.WriteLine($"Invalid input, will be used standart range (128 MB).");
+                    ramRange = 134217728;
+                }
+                Console.WriteLine($"{Environment.NewLine}Starting building file...");
+                builder.Build(builder.FileName, ramRange);
+
+                Console.WriteLine($"Building successfully complated!{Environment.NewLine}Press any key to exit.");
+                Console.ReadKey();
+                return;
             }
             else
             {

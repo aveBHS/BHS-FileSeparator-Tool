@@ -71,10 +71,10 @@ namespace Builder
             }
 
             byte[] buffer = null;
-            FileStream outFile = new FileStream(path + FileName, FileMode.Create);
+            FileStream outFile = new FileStream(FileName, FileMode.Create);
             for (int i = 0; i < partsCount; i++)
             {
-                FileStream source = new FileStream(path + partsMassive[i], FileMode.Open);
+                FileStream source = new FileStream(partsMassive[i], FileMode.Open);
                 if (ramRange < source.Length)
                 {
                     buffer = new byte[ramRange];
