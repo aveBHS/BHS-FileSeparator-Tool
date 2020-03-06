@@ -113,7 +113,7 @@ namespace Builder
                             break;
                         }
                         source.Read(buffer, 0, ramRange);
-                        outFile.Write(buffer, 0, (int)source.Length);
+                        outFile.Write(buffer, 0, ramRange);
                     }
                 }
                 else
