@@ -41,6 +41,7 @@
             this.label3 = new System.Windows.Forms.Label();
             this.folderToSeparationTextBox = new System.Windows.Forms.TextBox();
             this.ramEcoGroupBox = new System.Windows.Forms.GroupBox();
+            this.label6 = new System.Windows.Forms.Label();
             this.ramEcoLabel = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
             this.ramEcoTrackBar = new System.Windows.Forms.TrackBar();
@@ -66,7 +67,6 @@
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.folderBrowserDialog = new System.Windows.Forms.FolderBrowserDialog();
-            this.label6 = new System.Windows.Forms.Label();
             this.statusStrip1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.outDirGroupBox.SuspendLayout();
@@ -107,6 +107,7 @@
             this.helpProvider1.SetShowHelp(this.sizeOfPartType, false);
             this.sizeOfPartType.Size = new System.Drawing.Size(62, 21);
             this.sizeOfPartType.TabIndex = 3;
+            this.sizeOfPartType.SelectedIndexChanged += new System.EventHandler(this.sizeOfPartType_SelectedIndexChanged);
             // 
             // notifyIcon1
             // 
@@ -190,6 +191,15 @@
             this.ramEcoGroupBox.TabIndex = 4;
             this.ramEcoGroupBox.TabStop = false;
             this.ramEcoGroupBox.Text = "Экономия ОЗУ";
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(6, 24);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(285, 13);
+            this.label6.TabIndex = 1003;
+            this.label6.Text = "Ограничение использования ОЗУ. Стандартно - 32 МБ";
             // 
             // ramEcoLabel
             // 
@@ -444,15 +454,6 @@
             this.tabControl1.SelectedIndex = 0;
             this.tabControl1.Size = new System.Drawing.Size(627, 372);
             this.tabControl1.TabIndex = 1;
-            // 
-            // label6
-            // 
-            this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(6, 24);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(285, 13);
-            this.label6.TabIndex = 1003;
-            this.label6.Text = "Ограничение использования ОЗУ. Стандартно - 32 МБ";
             // 
             // Form1
             // 

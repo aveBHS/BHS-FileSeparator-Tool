@@ -25,7 +25,8 @@ namespace BHS_FileSeparator_Tool
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            
+            sizeOfPart.SelectedIndex = 0;
+            sizeOfPartType.SelectedIndex = 3;
         }
 
         private void LinkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
@@ -40,13 +41,13 @@ namespace BHS_FileSeparator_Tool
 
         private void RamEcoTrackBar_Scroll(object sender, EventArgs e)
         {
-            string[] values = { "32 МБ", "64 МБ", "128 МБ", "256 МБ", "512 МБ", "1 ГБ"};
+            string[] values = { "32 МБ", "64 МБ", "128 МБ", "256 МБ", "512 МБ", "1 ГБ" };
             ramEcoLabel.Text = values[ramEcoTrackBar.Value];
         }
 
         private void BrowseFileUrl_Click(object sender, EventArgs e)
         {
-            if(openFileDialog.ShowDialog() == DialogResult.OK)
+            if (openFileDialog.ShowDialog() == DialogResult.OK)
             {
                 fileToSeparation = openFileDialog.FileName;
                 fileToSeparationUrlTextBox.Text = fileToSeparation;
@@ -75,23 +76,50 @@ namespace BHS_FileSeparator_Tool
 
         private void StartSeparating_Click(object sender, EventArgs e)
         {
-            sourceGroupBox.Enabled = false;
-            outDirGroupBox.Enabled = false;
-            checkGroupBox.Enabled = false;
-            separationSettingsGroupBox.Enabled = false;
-            ramEcoGroupBox.Enabled = false;
-            startSeparating.Enabled = false;
+            UpdateGUI(false);
 
-            separationProgress.Style = ProgressBarStyle.Marquee;
+            if(string.IsNullOrEmpty(fileToSeparation) || string.IsNullOrEmpty(folderToSeparation))
+            {
+                MessageBox.Show("Вы не указали файл или папку для разборки!", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                UpdateGUI(true);
+                
+                return;
+            }
+
+            int[] sizeOfParts = { 1, 2, 4, 8, 16, 32, 64, 128, 256, 512, 1024, 2048, 4096 };
+            int[] sizeMultiplier = { 1, 1024, 1048576, 1073741824 };
+            long byteCount = (long)((long)sizeOfParts[sizeOfPart.SelectedIndex] * (long)sizeMultiplier[sizeOfPartType.SelectedIndex]);
+            FileStream file = new FileStream(fileToSeparation, FileMode.Open);
+            long size = file.Length;
+
+            if (byteCount > size)
+            {
+                MessageBox.Show("Размер части не может быть больше исходного файла!", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                UpdateGUI(true);
+                return;
+            }
 
             Thread separation = new Thread(new ThreadStart(Separation));
             separation.IsBackground = true;
             separation.Start();
-            
         }
-        public void UpdateGUI()
+        private void UpdateGUI(bool lockGUI)
         {
-
+            sourceGroupBox.Enabled = lockGUI;
+            outDirGroupBox.Enabled = lockGUI;
+            checkGroupBox.Enabled = lockGUI;
+            separationSettingsGroupBox.Enabled = lockGUI;
+            ramEcoGroupBox.Enabled = lockGUI;
+            startSeparating.Enabled = lockGUI;
+            if (lockGUI)
+            {
+                separationProgress.Style = ProgressBarStyle.Blocks;
+                separationProgress.Value = 0;
+            }
+            else
+            {
+                separationProgress.Style = ProgressBarStyle.Marquee;
+            }
         }
         private void Separation()
         {
@@ -108,18 +136,19 @@ namespace BHS_FileSeparator_Tool
                 FileStream file = new FileStream(fileToSeparation, FileMode.Open);
                 long size = file.Length;
 
-                int[] ramRangeBytes = { 33554432, 67108864, 134217728, 268435456, 536870912, 1073741824};
+                int[] ramRangeBytes = { 33554432, 67108864, 134217728, 268435456, 536870912, 1073741824 };
                 long ramRange = 0;
                 Invoke(new Action(() => { ramRange = ramRangeBytes[ramEcoTrackBar.Value]; }));
 
-                int[] sizeOfParts = {1, 2, 4, 8, 16, 32, 64, 128, 256, 512, 1024, 2048, 4096};
-                int[] sizeMultiplier = {1, 1024, 1048576, 1073741824};
+                int[] sizeOfParts = { 1, 2, 4, 8, 16, 32, 64, 128, 256, 512, 1024, 2048, 4096 };
+                int[] sizeMultiplier = { 1, 1024, 1048576, 1073741824 };
 
                 int sizeOfPart_local = 0;
                 int sizeOfPartType_local = 0;
                 Invoke(new Action(() => { sizeOfPart_local = sizeOfPart.SelectedIndex; sizeOfPartType_local = sizeOfPartType.SelectedIndex; }));
 
                 long byteCount = (long)((long)sizeOfParts[sizeOfPart_local] * (long)sizeMultiplier[sizeOfPartType_local]);
+
                 byte[] lastBytes = null;
 
                 if (byteCount > ramRange)
@@ -141,20 +170,20 @@ namespace BHS_FileSeparator_Tool
                 FileBuilder fileBuilder = new FileBuilder(openFileDialog.FileName.Split('\\')[0], file.Length, byteCount);
                 string partName = partNameBox.Text.Replace("#", "{0}");
 
-                for(int i = 0; i < partCount; i++)
+                for (int i = 0; i < partCount; i++)
                 {
-                    if (File.Exists(folderToSeparation + string.Format(partName, i + 1))) 
+                    if (File.Exists(folderToSeparation + string.Format(partName, i + 1)))
                         File.Delete(folderToSeparation + string.Format(partName, i + 1));
                 }
 
                 for (int i = 0; i < partCount; i++)
                 {
                     Invoke(new Action(() => { helpBar.Text = "Шаг " + step + ": запись " + (i + 1) + " части..."; }));
-                   
+
                     if (i + 1 == partCount)
                     {
                         long lastPartSize = (file.Length - ((partCount - 1) * byteCount));
-                        Part lastPart = new Part(lastPartSize, string.Format(partName, i+1));
+                        Part lastPart = new Part(lastPartSize, string.Format(partName, i + 1));
                         for (int j = 0; j < lastPartSize; j += lastBytes.Length)
                         {
                             if (j + lastBytes.Length > lastPartSize)
@@ -163,19 +192,20 @@ namespace BHS_FileSeparator_Tool
                                 lastBytes = new byte[lastPartSize];
                                 if (lastPartSize > int.MaxValue)
                                 {
-                                    while(true){
+                                    while (true)
+                                    {
                                         file.Read(lastBytes, 0, int.MaxValue);
                                         lastPartSize -= int.MaxValue;
-                                        if(lastPartSize <= int.MaxValue)
+                                        if (lastPartSize <= int.MaxValue)
                                         {
-                                            file.Read(lastBytes, 0, (int) lastPartSize);
+                                            file.Read(lastBytes, 0, (int)lastPartSize);
                                             break;
                                         }
                                     }
                                 }
                                 else
                                 {
-                                    file.Read(lastBytes, 0, (int) lastPartSize);
+                                    file.Read(lastBytes, 0, (int)lastPartSize);
                                 }
                                 lastPart.WriteByte(folderToSeparation + string.Format(partName, i + 1), lastBytes);
                             }
@@ -188,7 +218,7 @@ namespace BHS_FileSeparator_Tool
                         fileBuilder.AddPart(lastPart);
                         break;
                     }
-                    Part part = new Part(byteCount, string.Format(partName, i+1));
+                    Part part = new Part(byteCount, string.Format(partName, i + 1));
                     for (int j = 0; j < byteCount; j += lastBytes.Length)
                     {
                         if (j + lastBytes.Length > byteCount)
@@ -209,7 +239,7 @@ namespace BHS_FileSeparator_Tool
                             }
                             else
                             {
-                                file.Read(lastBytes, 0, (int) byteCount);
+                                file.Read(lastBytes, 0, (int)byteCount);
                             }
                             part.WriteByte(folderToSeparation + string.Format(partName, i + 1), lastBytes);
                         }
@@ -240,13 +270,7 @@ namespace BHS_FileSeparator_Tool
                 xml.Serialize(builderFile, fileBuilder);
                 builderFile.Close();
 
-                
-                sourceGroupBox.Enabled = false;
-                outDirGroupBox.Enabled = false;
-                checkGroupBox.Enabled = false;
-                separationSettingsGroupBox.Enabled = false;
-                ramEcoGroupBox.Enabled = false;
-                startSeparating.Enabled = false;
+                Invoke(new Action(() => { UpdateGUI(true); }));
 
                 Invoke(new Action(() => { separationProgress.Value = 100; }));
                 helpBar.Text = "Готово!";
@@ -258,6 +282,26 @@ namespace BHS_FileSeparator_Tool
                 {
                     Application.Exit();
                 }
+            }
+        }
+
+        private void sizeOfPartType_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            int index = sizeOfPart.SelectedIndex;
+            if (sizeOfPartType.SelectedIndex == 3)
+            {
+                sizeOfPart.Items.Clear();
+                sizeOfPart.Items.AddRange(new object[] { "1", "2", "4", "8"});
+                if (index > 3)
+                    sizeOfPart.SelectedIndex = 3;
+                else
+                    sizeOfPart.SelectedIndex = index;
+            }
+            else
+            {
+                sizeOfPart.Items.Clear();
+                sizeOfPart.Items.AddRange(new object[] {"1","2","4","8","16","32","64","128","256","512","1024","2048","4096"});
+                sizeOfPart.SelectedIndex = index;
             }
         }
     }
