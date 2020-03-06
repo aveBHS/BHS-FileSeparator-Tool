@@ -102,36 +102,34 @@ namespace BHS_FileSeparator_Tool
         }
         private void Separation()
         {
-            int step = 1;
 
+            int step = 1;
             Invoke(new Action(() => { helpBar.Text = "Шаг " + step + ": подготовка..."; }));
 
             try
             {
-                Invoke(new Action(() => { separationProgress.Style = ProgressBarStyle.Continuous; }));
+                step++;
+
+                separationProgress.Style = ProgressBarStyle.Continuous;
+
                 FileStream file = new FileStream(fileToSeparation, FileMode.Open);
                 int size = (int)file.Length;
+
                 int[] sizeOfParts = { 1, 2, 4, 8, 16, 32, 64, 128, 256, 512, 1024, 2048, 4096 };
                 int[] sizeMultiplier = { 1, 1024, 1048576, 1073741824 };
 
-                int sizeOfPart_local = 0;
-                int sizeOfPartType_local = 0;
-                Invoke(new Action(() => { sizeOfPart_local = sizeOfPart.SelectedIndex; sizeOfPartType_local = sizeOfPartType.SelectedIndex; }));
-
-                int byteCount = sizeOfParts[sizeOfPart_local] * sizeMultiplier[sizeOfPartType_local];
+                int byteCount = sizeOfParts[sizeOfPart.SelectedIndex] * sizeMultiplier[sizeOfPartType.SelectedIndex];
 
                 int partCount = (size / byteCount);
-                if (file.Length % byteCount != 0)
-                {
-                    partCount++;
-                }
-                Invoke(new Action(() => { separationProgress.Value += 10; }));
+                if (file.Length % byteCount != 0) partCount++;
+
+                separationProgress.Value += 10;
+
                 int onePartProcent = 75 / partCount;
                 byte[] lastByte = new byte[1];
                 FileBuilder fileBuilder = new FileBuilder(openFileDialog.FileName.Split('\\')[0], file.Length, byteCount);
-                step++;
-                string partName_local = string.Empty;
-                Invoke(new Action(() => { partName_local = partName.Text; }));
+                string partName = partNameBox.Text.Replace("#", "{0}");
+
                 for (int i = 0; i < partCount; i++)
                 {
                     Invoke(new Action(() => { helpBar.Text = "Шаг " + step + ": запись " + (i + 1) + " части..."; }));
@@ -139,40 +137,43 @@ namespace BHS_FileSeparator_Tool
                     if (!(i + 1 < partCount))
                     {
                         int lastPartSize = ((int)file.Length - ((partCount - 1) * byteCount));
-                        Part lastPart = new Part(lastPartSize, partName_local.Split('#')[0] + (i + 1) + partName_local.Split('#')[1]);
+                        Part lastPart = new Part(lastPartSize, string.Format(partName, i));
                         for (int j = 0; j < lastPartSize; j++)
                         {
                             file.Read(lastByte, 0, 1);
-                            lastPart.WriteByte(folderToSeparation + partName_local.Split('#')[0] + (i + 1) + partName_local.Split('#')[1], lastByte);
+                            lastPart.WriteByte(folderToSeparation + string.Format(partName, i), lastByte);
                         }
                         fileBuilder.AddPart(lastPart);
                         break;
                     }
-                    Part part = new Part(byteCount, partName_local.Split('#')[0] + (i + 1) + partName_local.Split('#')[1]);
+                    Part part = new Part(byteCount, string.Format(partName, i));
                     for (int j = 0; j < byteCount; j++)
                     {
                         file.Read(lastByte, 0, 1);
-                        part.WriteByte(folderToSeparation + partName_local.Split('#')[0] + (i + 1) + partName_local.Split('#')[1], lastByte);
+                        part.WriteByte(folderToSeparation + string.Format(partName, i), lastByte);
                     }
                     fileBuilder.AddPart(part);
                     Invoke(new Action(() => { separationProgress.Value += onePartProcent; }));
                 }
+
                 Invoke(new Action(() => { separationProgress.Value = 80; }));
                 file.Close();
-                step++;
-                MessageBox.Show("Stop");
+
                 if (enableMd5Check.Checked)
                 {
-                    helpBar.Text = "Шаг " + step + ": создание сборочного файла...";
+                    helpBar.Text = "Шаг " + ++step + ": создание сборочного файла...";
                     fileBuilder.CalcMD5(folderToSeparation);
                 }
-                Invoke(new Action(() => { separationProgress.Value += 10; }));
+
+                separationProgress.Value += 10;
                 helpBar.Text = "Шаг " + step + ": создание сборочного файла...";
+
                 XmlSerializer xml = new XmlSerializer(typeof(FileBuilder));
                 StreamWriter builderFile = new StreamWriter(folderToSeparation + ".build");
                 xml.Serialize(builderFile, fileBuilder);
                 builderFile.Close();
 
+                
                 sourceGroupBox.Enabled = false;
                 outDirGroupBox.Enabled = false;
                 checkGroupBox.Enabled = false;
@@ -180,8 +181,9 @@ namespace BHS_FileSeparator_Tool
                 ramEcoGroupBox.Enabled = false;
                 startSeparating.Enabled = false;
 
-                Invoke(new Action(() => { separationProgress.Value = 100; }));
+                separationProgress.Value = 100;
                 helpBar.Text = "Готово!";
+
                 MessageBox.Show("Готово!", "Завершено", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
             catch (Exception error)

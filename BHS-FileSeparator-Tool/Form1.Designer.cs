@@ -50,7 +50,7 @@
             this.label2 = new System.Windows.Forms.Label();
             this.fileToSeparationUrlTextBox = new System.Windows.Forms.TextBox();
             this.separationSettingsGroupBox = new System.Windows.Forms.GroupBox();
-            this.partName = new System.Windows.Forms.TextBox();
+            this.partNameBox = new System.Windows.Forms.TextBox();
             this.label4 = new System.Windows.Forms.Label();
             this.switchSizeInput = new System.Windows.Forms.LinkLabel();
             this.label1 = new System.Windows.Forms.Label();
@@ -278,7 +278,7 @@
             // 
             // separationSettingsGroupBox
             // 
-            this.separationSettingsGroupBox.Controls.Add(this.partName);
+            this.separationSettingsGroupBox.Controls.Add(this.partNameBox);
             this.separationSettingsGroupBox.Controls.Add(this.label4);
             this.separationSettingsGroupBox.Controls.Add(this.switchSizeInput);
             this.separationSettingsGroupBox.Controls.Add(this.label1);
@@ -293,13 +293,13 @@
             this.separationSettingsGroupBox.TabStop = false;
             this.separationSettingsGroupBox.Text = "Настройки разделения";
             // 
-            // partName
+            // partNameBox
             // 
-            this.partName.Location = new System.Drawing.Point(9, 157);
-            this.partName.Name = "partName";
-            this.partName.Size = new System.Drawing.Size(210, 20);
-            this.partName.TabIndex = 1002;
-            this.partName.Text = "part#.bin";
+            this.partNameBox.Location = new System.Drawing.Point(9, 157);
+            this.partNameBox.Name = "partNameBox";
+            this.partNameBox.Size = new System.Drawing.Size(210, 20);
+            this.partNameBox.TabIndex = 1002;
+            this.partNameBox.Text = "part#.bin";
             // 
             // label4
             // 
@@ -527,7 +527,7 @@
         private System.Windows.Forms.Button browseFileUrl;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.TextBox fileToSeparationUrlTextBox;
-        private System.Windows.Forms.TextBox partName;
+        private System.Windows.Forms.TextBox partNameBox;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.OpenFileDialog openFileDialog;
         private System.Windows.Forms.FolderBrowserDialog folderBrowserDialog;
