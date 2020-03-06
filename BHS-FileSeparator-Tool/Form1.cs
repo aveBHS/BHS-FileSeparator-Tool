@@ -140,6 +140,12 @@ namespace BHS_FileSeparator_Tool
                 FileBuilder fileBuilder = new FileBuilder(openFileDialog.FileName.Split('\\')[0], file.Length, byteCount);
                 string partName = partNameBox.Text.Replace("#", "{0}");
 
+                for(int i = 0; i < partCount; i++)
+                {
+                    if (File.Exists(folderToSeparation + string.Format(partName, i + 1))) 
+                        File.Delete(folderToSeparation + string.Format(partName, i + 1));
+                }
+
                 for (int i = 0; i < partCount; i++)
                 {
                     Invoke(new Action(() => { helpBar.Text = "Шаг " + step + ": запись " + (i + 1) + " части..."; }));
