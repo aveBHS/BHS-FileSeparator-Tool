@@ -38,16 +38,9 @@ namespace BHS_FileSeparator_Tool
 
         }
 
-        private void EnabledRamEco_CheckedChanged(object sender, EventArgs e)
-        {
-            ramEcoLabel.Enabled = enabledRamEco.Checked;
-            ramEcoTrackBar.Enabled = enabledRamEco.Checked;
-            label5.Enabled = enabledRamEco.Checked;
-        }
-
         private void RamEcoTrackBar_Scroll(object sender, EventArgs e)
         {
-            string[] values = { "32 МБ", "64 МБ", "128 МБ", "256 МБ", "512 МБ", "1 ГБ", "1.5 ГБ", "2 ГБ"};
+            string[] values = { "32 МБ", "64 МБ", "128 МБ", "256 МБ", "512 МБ", "1 ГБ"};
             ramEcoLabel.Text = values[ramEcoTrackBar.Value];
         }
 
@@ -110,23 +103,40 @@ namespace BHS_FileSeparator_Tool
             {
                 step++;
 
-                separationProgress.Style = ProgressBarStyle.Continuous;
+                Invoke(new Action(() => { separationProgress.Style = ProgressBarStyle.Continuous; }));
 
                 FileStream file = new FileStream(fileToSeparation, FileMode.Open);
                 int size = (int)file.Length;
 
-                int[] sizeOfParts = { 1, 2, 4, 8, 16, 32, 64, 128, 256, 512, 1024, 2048, 4096 };
-                int[] sizeMultiplier = { 1, 1024, 1048576, 1073741824 };
+                int[] ramRangeBytes = { 33554432, 67108864, 134217728, 268435456, 536870912, 1073741824};
+                int ramRange = 0;
+                Invoke(new Action(() => { ramRange = ramRangeBytes[ramEcoTrackBar.Value]; }));
 
-                int byteCount = sizeOfParts[sizeOfPart.SelectedIndex] * sizeMultiplier[sizeOfPartType.SelectedIndex];
+                int[] sizeOfParts = {1, 2, 4, 8, 16, 32, 64, 128, 256, 512, 1024, 2048, 4096};
+                int[] sizeMultiplier = {1, 1024, 1048576, 1073741824};
+
+                int sizeOfPart_local = 0;
+                int sizeOfPartType_local = 0;
+                Invoke(new Action(() => { sizeOfPart_local = sizeOfPart.SelectedIndex; sizeOfPartType_local = sizeOfPartType.SelectedIndex; }));
+
+                int byteCount = sizeOfParts[sizeOfPart_local] * sizeMultiplier[sizeOfPartType_local];
+                byte[] lastBytes = null;
+
+                if (byteCount > ramRange)
+                {
+                    lastBytes = new byte[ramRange];
+                }
+                else
+                {
+                    lastBytes = new byte[byteCount];
+                }
 
                 int partCount = (size / byteCount);
                 if (file.Length % byteCount != 0) partCount++;
 
-                separationProgress.Value += 10;
+                Invoke(new Action(() => { separationProgress.Value += 10; }));
 
                 int onePartProcent = 75 / partCount;
-                byte[] lastByte = new byte[1];
                 FileBuilder fileBuilder = new FileBuilder(openFileDialog.FileName.Split('\\')[0], file.Length, byteCount);
                 string partName = partNameBox.Text.Replace("#", "{0}");
 
@@ -134,23 +144,29 @@ namespace BHS_FileSeparator_Tool
                 {
                     Invoke(new Action(() => { helpBar.Text = "Шаг " + step + ": запись " + (i + 1) + " части..."; }));
                    
-                    if (!(i + 1 < partCount))
+                    if (i + 1 == partCount)
                     {
                         int lastPartSize = ((int)file.Length - ((partCount - 1) * byteCount));
-                        Part lastPart = new Part(lastPartSize, string.Format(partName, i));
-                        for (int j = 0; j < lastPartSize; j++)
-                        {
-                            file.Read(lastByte, 0, 1);
-                            lastPart.WriteByte(folderToSeparation + string.Format(partName, i), lastByte);
-                        }
+                        Part lastPart = new Part(lastPartSize, string.Format(partName, i+1));
+                        lastBytes = new byte[lastPartSize];
+                        file.Read(lastBytes, 0, lastPartSize);
+                        lastPart.WriteByte(folderToSeparation + string.Format(partName, i + 1), lastBytes);
                         fileBuilder.AddPart(lastPart);
                         break;
                     }
-                    Part part = new Part(byteCount, string.Format(partName, i));
-                    for (int j = 0; j < byteCount; j++)
+                    Part part = new Part(byteCount, string.Format(partName, i+1));
+                    for (int j = 0; j < byteCount; j += lastBytes.Length)
                     {
-                        file.Read(lastByte, 0, 1);
-                        part.WriteByte(folderToSeparation + string.Format(partName, i), lastByte);
+                        if (j + lastBytes.Length > byteCount)
+                        {
+                            file.Read(lastBytes, 0, byteCount - j);
+                            part.WriteByte(folderToSeparation + string.Format(partName, i + 1), lastBytes);
+                        }
+                        else
+                        {
+                            file.Read(lastBytes, 0, lastBytes.Length);
+                            part.WriteByte(folderToSeparation + string.Format(partName, i + 1), lastBytes);
+                        }
                     }
                     fileBuilder.AddPart(part);
                     Invoke(new Action(() => { separationProgress.Value += onePartProcent; }));
@@ -165,7 +181,7 @@ namespace BHS_FileSeparator_Tool
                     fileBuilder.CalcMD5(folderToSeparation);
                 }
 
-                separationProgress.Value += 10;
+                Invoke(new Action(() => { separationProgress.Value += 10; }));
                 helpBar.Text = "Шаг " + step + ": создание сборочного файла...";
 
                 XmlSerializer xml = new XmlSerializer(typeof(FileBuilder));
@@ -181,9 +197,8 @@ namespace BHS_FileSeparator_Tool
                 ramEcoGroupBox.Enabled = false;
                 startSeparating.Enabled = false;
 
-                separationProgress.Value = 100;
+                Invoke(new Action(() => { separationProgress.Value = 100; }));
                 helpBar.Text = "Готово!";
-
                 MessageBox.Show("Готово!", "Завершено", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
             catch (Exception error)

@@ -24,7 +24,7 @@ namespace BHS_FileSeparator_Tool
         public void WriteByte(string file, byte[] byteForWrite)
         {
             FileStream partFile = new FileStream(file, FileMode.Append);
-            partFile.Write(byteForWrite, 0, 1);
+            partFile.Write(byteForWrite, 0, byteForWrite.Length);
             partFile.Close();
         }
 

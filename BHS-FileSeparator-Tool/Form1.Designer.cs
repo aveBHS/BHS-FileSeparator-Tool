@@ -43,7 +43,6 @@
             this.ramEcoGroupBox = new System.Windows.Forms.GroupBox();
             this.ramEcoLabel = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
-            this.enabledRamEco = new System.Windows.Forms.CheckBox();
             this.ramEcoTrackBar = new System.Windows.Forms.TrackBar();
             this.sourceGroupBox = new System.Windows.Forms.GroupBox();
             this.browseFileUrl = new System.Windows.Forms.Button();
@@ -67,6 +66,7 @@
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.folderBrowserDialog = new System.Windows.Forms.FolderBrowserDialog();
+            this.label6 = new System.Windows.Forms.Label();
             this.statusStrip1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.outDirGroupBox.SuspendLayout();
@@ -180,9 +180,9 @@
             // 
             // ramEcoGroupBox
             // 
+            this.ramEcoGroupBox.Controls.Add(this.label6);
             this.ramEcoGroupBox.Controls.Add(this.ramEcoLabel);
             this.ramEcoGroupBox.Controls.Add(this.label5);
-            this.ramEcoGroupBox.Controls.Add(this.enabledRamEco);
             this.ramEcoGroupBox.Controls.Add(this.ramEcoTrackBar);
             this.ramEcoGroupBox.Location = new System.Drawing.Point(6, 171);
             this.ramEcoGroupBox.Name = "ramEcoGroupBox";
@@ -214,24 +214,12 @@
             this.label5.TabIndex = 1003;
             this.label5.Text = "Максимальный размер части файла загружаемого в ОЗУ";
             // 
-            // enabledRamEco
-            // 
-            this.enabledRamEco.AutoSize = true;
-            this.enabledRamEco.Location = new System.Drawing.Point(6, 19);
-            this.enabledRamEco.Name = "enabledRamEco";
-            this.enabledRamEco.Size = new System.Drawing.Size(351, 17);
-            this.enabledRamEco.TabIndex = 1;
-            this.enabledRamEco.Text = "Включить экономию ОЗУ (рекомендуется для больших файлов)";
-            this.enabledRamEco.UseVisualStyleBackColor = true;
-            this.enabledRamEco.CheckedChanged += new System.EventHandler(this.EnabledRamEco_CheckedChanged);
-            // 
             // ramEcoTrackBar
             // 
             this.ramEcoTrackBar.BackColor = System.Drawing.Color.White;
-            this.ramEcoTrackBar.Enabled = false;
             this.ramEcoTrackBar.LargeChange = 1;
             this.ramEcoTrackBar.Location = new System.Drawing.Point(6, 68);
-            this.ramEcoTrackBar.Maximum = 7;
+            this.ramEcoTrackBar.Maximum = 5;
             this.ramEcoTrackBar.Name = "ramEcoTrackBar";
             this.ramEcoTrackBar.Size = new System.Drawing.Size(360, 45);
             this.ramEcoTrackBar.TabIndex = 0;
@@ -457,6 +445,15 @@
             this.tabControl1.Size = new System.Drawing.Size(627, 372);
             this.tabControl1.TabIndex = 1;
             // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(6, 24);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(285, 13);
+            this.label6.TabIndex = 1003;
+            this.label6.Text = "Ограничение использования ОЗУ. Стандартно - 32 МБ";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -521,7 +518,6 @@
         private System.Windows.Forms.GroupBox ramEcoGroupBox;
         private System.Windows.Forms.Label ramEcoLabel;
         private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.CheckBox enabledRamEco;
         private System.Windows.Forms.TrackBar ramEcoTrackBar;
         private System.Windows.Forms.GroupBox sourceGroupBox;
         private System.Windows.Forms.Button browseFileUrl;
@@ -531,6 +527,7 @@
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.OpenFileDialog openFileDialog;
         private System.Windows.Forms.FolderBrowserDialog folderBrowserDialog;
+        private System.Windows.Forms.Label label6;
     }
 }
 
