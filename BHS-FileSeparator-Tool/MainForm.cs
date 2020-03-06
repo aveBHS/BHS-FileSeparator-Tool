@@ -176,6 +176,8 @@ namespace BHS_FileSeparator_Tool
                     if (File.Exists(folderToSeparation + string.Format(partName, i + 1)))
                         File.Delete(folderToSeparation + string.Format(partName, i + 1));
                 }
+                if (!Directory.Exists(folderToSeparation))
+                    Directory.CreateDirectory(folderToSeparation);
 
                 for (int i = 0; i < partCount; i++)
                 {
