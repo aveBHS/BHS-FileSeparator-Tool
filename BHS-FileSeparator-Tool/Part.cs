@@ -14,17 +14,17 @@ namespace BHS_FileSeparator_Tool
 
         public Part(){ }
 
-        public Part(int size, byte[] bytes, string fileName)
+        public Part(int size, string fileName)
         {
             this.size = size;
             this.fileName = fileName;
             //md5Hash = PartMD5(bytes);
         }
 
-        public void WriteByte(string file, byte byteForWrite)
+        public void WriteByte(string file, byte[] byteForWrite)
         {
             FileStream partFile = new FileStream(file, FileMode.Append);
-            partFile.Write(new byte[byteForWrite], 0, 1);
+            partFile.Write(byteForWrite, 0, 1);
             partFile.Close();
         }
 

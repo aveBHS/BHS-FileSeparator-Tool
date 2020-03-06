@@ -127,7 +127,7 @@ namespace BHS_FileSeparator_Tool
                 }
                 Invoke(new Action(() => { separationProgress.Value += 10; }));
                 int onePartProcent = 75 / partCount;
-                byte[] partBytes = new byte[byteCount];
+                byte[] lastByte = new byte[1];
                 FileBuilder fileBuilder = new FileBuilder(openFileDialog.FileName.Split('\\')[0], file.Length, byteCount);
                 step++;
                 string partName_local = string.Empty;
@@ -139,18 +139,23 @@ namespace BHS_FileSeparator_Tool
                     if (!(i + 1 < partCount))
                     {
                         int lastPartSize = ((int)file.Length - ((partCount - 1) * byteCount));
-                        file.Read(partBytes, 0, lastPartSize);
-                        Part lastPart = new Part(lastPartSize, partBytes, partName_local.Split('#')[0] + (i + 1) + partName_local.Split('#')[1]);
-                        lastPart.Write(folderToSeparation + partName_local.Split('#')[0] + (i + 1) + partName_local.Split('#')[1], partBytes);
+                        Part lastPart = new Part(lastPartSize, partName_local.Split('#')[0] + (i + 1) + partName_local.Split('#')[1]);
+                        for (int j = 0; j < lastPartSize; j++)
+                        {
+                            file.Read(lastByte, 0, 1);
+                            lastPart.WriteByte(folderToSeparation + partName_local.Split('#')[0] + (i + 1) + partName_local.Split('#')[1], lastByte);
+                        }
                         fileBuilder.AddPart(lastPart);
                         break;
                     }
-                    file.Read(partBytes, 0, byteCount);
-                    Part part = new Part(byteCount, partBytes, partName_local.Split('#')[0] + (i + 1) + partName_local.Split('#')[1]);
-                    part.Write(folderToSeparation + partName_local.Split('#')[0] + (i + 1) + partName_local.Split('#')[1], partBytes);
+                    Part part = new Part(byteCount, partName_local.Split('#')[0] + (i + 1) + partName_local.Split('#')[1]);
+                    for (int j = 0; j < byteCount; j++)
+                    {
+                        file.Read(lastByte, 0, 1);
+                        part.WriteByte(folderToSeparation + partName_local.Split('#')[0] + (i + 1) + partName_local.Split('#')[1], lastByte);
+                    }
                     fileBuilder.AddPart(part);
                     Invoke(new Action(() => { separationProgress.Value += onePartProcent; }));
-                    MessageBox.Show("Stop");
                 }
                 Invoke(new Action(() => { separationProgress.Value = 80; }));
                 file.Close();
