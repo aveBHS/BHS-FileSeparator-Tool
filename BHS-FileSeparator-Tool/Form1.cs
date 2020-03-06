@@ -148,9 +148,20 @@ namespace BHS_FileSeparator_Tool
                     {
                         int lastPartSize = ((int)file.Length - ((partCount - 1) * byteCount));
                         Part lastPart = new Part(lastPartSize, string.Format(partName, i+1));
-                        lastBytes = new byte[lastPartSize];
-                        file.Read(lastBytes, 0, lastPartSize);
-                        lastPart.WriteByte(folderToSeparation + string.Format(partName, i + 1), lastBytes);
+                        for (int j = 0; j < lastPartSize; j += lastBytes.Length)
+                        {
+                            if (j + lastBytes.Length > lastPartSize)
+                            {
+                                lastBytes = new byte[lastPartSize];
+                                file.Read(lastBytes, 0, lastPartSize - j);
+                                lastPart.WriteByte(folderToSeparation + string.Format(partName, i + 1), lastBytes);
+                            }
+                            else
+                            {
+                                file.Read(lastBytes, 0, lastBytes.Length);
+                                lastPart.WriteByte(folderToSeparation + string.Format(partName, i + 1), lastBytes);
+                            }
+                        }
                         fileBuilder.AddPart(lastPart);
                         break;
                     }
