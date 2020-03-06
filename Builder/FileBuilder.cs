@@ -61,32 +61,42 @@ namespace Builder
             PartsCount++;
         }
 
-        public void Build(string path)
+        public void Build(string path, int ramRange)
         {
-
             string[] partsMassive = new string[partsCount];
+
             for (int i = 0; i < partsCount; i++)
             {
                 partsMassive[i] = parts[i].FileName;
             }
-            byte[] buffer = new byte[partSize];
+
+            byte[] buffer = null;
             FileStream outFile = new FileStream(path + FileName, FileMode.Create);
             for (int i = 0; i < partsCount; i++)
             {
-                /*if (!(i + 1 < partsCount))
-                {
-                    int lastPartSize = ((int)size - ((partsCount - 1) * partSize));
-                    FileStream lastSource = new FileStream(path + partsMassive[i], FileMode.Open);
-                    lastSource.Read(buffer, 0, lastPartSize);
-                    outFile.Write(buffer, 0, buffer.Length);
-                    lastSource.Close();
-                    break;
-                }*/
-
                 FileStream source = new FileStream(path + partsMassive[i], FileMode.Open);
-                source.Read(buffer, 0, (int)source.Length);
-                Console.WriteLine("Readed " + (source.Length / 1024 / 1024) + " mb");
-                outFile.Write(buffer, 0, (int)source.Length);
+                if (ramRange < source.Length)
+                {
+                    buffer = new byte[ramRange];
+                    for (int j = 0; j < source.Length; j += ramRange)
+                    {
+                        if (j + ramRange >= source.Length)
+                        {
+                            source.Read(buffer, 0, (int)source.Length - j);
+                            outFile.Write(buffer, 0, (int)source.Length - j);
+                            break;
+                        }
+                        source.Read(buffer, 0, ramRange);
+                        outFile.Write(buffer, 0, (int)source.Length);
+                    }
+                }
+                else
+                {
+                    buffer = new byte[source.Length];
+                    source.Read(buffer, 0, (int)source.Length);
+                    outFile.Write(buffer, 0, (int)source.Length);
+                }
+                Console.WriteLine($"-- Writed part #{i + 1} {source.Length} bytes");
                 source.Close();
             }
         }
