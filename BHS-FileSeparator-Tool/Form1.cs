@@ -109,7 +109,7 @@ namespace BHS_FileSeparator_Tool
                 long size = file.Length;
 
                 int[] ramRangeBytes = { 33554432, 67108864, 134217728, 268435456, 536870912, 1073741824};
-                int ramRange = 0;
+                long ramRange = 0;
                 Invoke(new Action(() => { ramRange = ramRangeBytes[ramEcoTrackBar.Value]; }));
 
                 int[] sizeOfParts = {1, 2, 4, 8, 16, 32, 64, 128, 256, 512, 1024, 2048, 4096};
@@ -119,7 +119,7 @@ namespace BHS_FileSeparator_Tool
                 int sizeOfPartType_local = 0;
                 Invoke(new Action(() => { sizeOfPart_local = sizeOfPart.SelectedIndex; sizeOfPartType_local = sizeOfPartType.SelectedIndex; }));
 
-                long byteCount = sizeOfParts[sizeOfPart_local] * sizeMultiplier[sizeOfPartType_local];
+                long byteCount = (long)((long)sizeOfParts[sizeOfPart_local] * (long)sizeMultiplier[sizeOfPartType_local]);
                 byte[] lastBytes = null;
 
                 if (byteCount > ramRange)
