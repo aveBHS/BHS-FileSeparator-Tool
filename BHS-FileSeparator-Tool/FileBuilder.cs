@@ -14,11 +14,11 @@ namespace BHS_FileSeparator_Tool
         private long size;
         private int partsCount;
         private string md5Hash = String.Empty;
-        private int partSize;
+        private long partSize;
 
         public FileBuilder() { }
 
-        public FileBuilder(List<Part> parts, string fileName, int size, int partCount, int partSize)
+        public FileBuilder(List<Part> parts, string fileName, long size, int partCount, long partSize)
         {
             this.parts = parts;
             this.fileName = fileName;
@@ -27,7 +27,7 @@ namespace BHS_FileSeparator_Tool
             this.partSize = partSize;
         }
 
-        public FileBuilder(string fileName, long size, int partSize)
+        public FileBuilder(string fileName, long size, long partSize)
         {
             this.parts = new List<Part>();
             this.fileName = fileName;
@@ -39,7 +39,7 @@ namespace BHS_FileSeparator_Tool
         public string FileName { get { return fileName; } set { fileName = value; } }
         public string MD5Hash { get { return md5Hash; } set { md5Hash = value; } }
         public int PartsCount { get => partsCount; set => partsCount = value; }
-        public int PartSize { get => partSize; set { partSize = value; } }
+        public long PartSize { get => partSize; set { partSize = value; } }
         public long FileSize { get { return size; } set { size = value; } }
         public List<Part> Parts { get { return parts; } set { parts = value; } }
 

@@ -106,7 +106,7 @@ namespace BHS_FileSeparator_Tool
                 Invoke(new Action(() => { separationProgress.Style = ProgressBarStyle.Continuous; }));
 
                 FileStream file = new FileStream(fileToSeparation, FileMode.Open);
-                int size = (int)file.Length;
+                long size = file.Length;
 
                 int[] ramRangeBytes = { 33554432, 67108864, 134217728, 268435456, 536870912, 1073741824};
                 int ramRange = 0;
@@ -119,7 +119,7 @@ namespace BHS_FileSeparator_Tool
                 int sizeOfPartType_local = 0;
                 Invoke(new Action(() => { sizeOfPart_local = sizeOfPart.SelectedIndex; sizeOfPartType_local = sizeOfPartType.SelectedIndex; }));
 
-                int byteCount = sizeOfParts[sizeOfPart_local] * sizeMultiplier[sizeOfPartType_local];
+                long byteCount = sizeOfParts[sizeOfPart_local] * sizeMultiplier[sizeOfPartType_local];
                 byte[] lastBytes = null;
 
                 if (byteCount > ramRange)
@@ -128,10 +128,11 @@ namespace BHS_FileSeparator_Tool
                 }
                 else
                 {
-                    lastBytes = new byte[byteCount];
+                    if (byteCount < int.MaxValue) lastBytes = new byte[int.MaxValue];
+                    else lastBytes = new byte[byteCount];
                 }
 
-                int partCount = (size / byteCount);
+                int partCount = (int)(size / byteCount);
                 if (file.Length % byteCount != 0) partCount++;
 
                 Invoke(new Action(() => { separationProgress.Value += 10; }));
@@ -152,14 +153,30 @@ namespace BHS_FileSeparator_Tool
                    
                     if (i + 1 == partCount)
                     {
-                        int lastPartSize = ((int)file.Length - ((partCount - 1) * byteCount));
+                        long lastPartSize = (file.Length - ((partCount - 1) * byteCount));
                         Part lastPart = new Part(lastPartSize, string.Format(partName, i+1));
                         for (int j = 0; j < lastPartSize; j += lastBytes.Length)
                         {
                             if (j + lastBytes.Length > lastPartSize)
                             {
+                                lastPartSize -= j;
                                 lastBytes = new byte[lastPartSize];
-                                file.Read(lastBytes, 0, lastPartSize - j);
+                                if (lastPartSize > int.MaxValue)
+                                {
+                                    while(true){
+                                        file.Read(lastBytes, 0, int.MaxValue);
+                                        lastPartSize -= int.MaxValue;
+                                        if(lastPartSize <= int.MaxValue)
+                                        {
+                                            file.Read(lastBytes, 0, (int) lastPartSize);
+                                            break;
+                                        }
+                                    }
+                                }
+                                else
+                                {
+                                    file.Read(lastBytes, 0, (int) lastPartSize);
+                                }
                                 lastPart.WriteByte(folderToSeparation + string.Format(partName, i + 1), lastBytes);
                             }
                             else
@@ -176,7 +193,24 @@ namespace BHS_FileSeparator_Tool
                     {
                         if (j + lastBytes.Length > byteCount)
                         {
-                            file.Read(lastBytes, 0, byteCount - j);
+                            byteCount -= j;
+                            if (byteCount > int.MaxValue)
+                            {
+                                while (true)
+                                {
+                                    file.Read(lastBytes, 0, int.MaxValue);
+                                    byteCount -= int.MaxValue;
+                                    if (byteCount <= int.MaxValue)
+                                    {
+                                        file.Read(lastBytes, 0, (int)byteCount);
+                                        break;
+                                    }
+                                }
+                            }
+                            else
+                            {
+                                file.Read(lastBytes, 0, (int) byteCount);
+                            }
                             part.WriteByte(folderToSeparation + string.Format(partName, i + 1), lastBytes);
                         }
                         else

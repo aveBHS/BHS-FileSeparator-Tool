@@ -8,13 +8,13 @@ namespace BHS_FileSeparator_Tool
     [Serializable]
     public class Part : IDisposable
     {
-        private int size;
+        private long size;
         //private string md5Hash;
         private string fileName;
 
         public Part(){ }
 
-        public Part(int size, string fileName)
+        public Part(long size, string fileName)
         {
             this.size = size;
             this.fileName = fileName;
@@ -31,7 +31,7 @@ namespace BHS_FileSeparator_Tool
         public void Build(string file, byte[] bytes)
         {
             FileStream partFile = new FileStream(file, FileMode.Append);
-            partFile.Write(bytes, 0, size);
+            partFile.Write(bytes, 0, bytes.Length);
             partFile.Close();
         }
 
@@ -48,7 +48,7 @@ namespace BHS_FileSeparator_Tool
         }*/
 
         public string FileName { get { return fileName; } set { fileName = value; } }
-        public int Size { get { return size; } set { size = value; } }
+        public long Size { get { return size; } set { size = value; } }
 
         private string PartMD5(byte[] bytes)
         {
