@@ -55,10 +55,7 @@
             this.switchSizeInput = new System.Windows.Forms.LinkLabel();
             this.label1 = new System.Windows.Forms.Label();
             this.sizeOfPart = new System.Windows.Forms.ComboBox();
-            this.enableChekingParts = new System.Windows.Forms.CheckBox();
-            this.enableChekingFile = new System.Windows.Forms.CheckBox();
             this.checkGroupBox = new System.Windows.Forms.GroupBox();
-            this.enableMultiHashCheck = new System.Windows.Forms.RadioButton();
             this.enableMd5Check = new System.Windows.Forms.RadioButton();
             this.disableHash = new System.Windows.Forms.RadioButton();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
@@ -67,6 +64,8 @@
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.folderBrowserDialog = new System.Windows.Forms.FolderBrowserDialog();
+            this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.importFileBuilder = new System.Windows.Forms.CheckBox();
             this.statusStrip1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.outDirGroupBox.SuspendLayout();
@@ -77,6 +76,7 @@
             this.checkGroupBox.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.tabControl1.SuspendLayout();
+            this.groupBox2.SuspendLayout();
             this.SuspendLayout();
             // 
             // statusStrip1
@@ -102,7 +102,7 @@
             "КБ",
             "МБ",
             "ГБ"});
-            this.sizeOfPartType.Location = new System.Drawing.Point(157, 85);
+            this.sizeOfPartType.Location = new System.Drawing.Point(156, 41);
             this.sizeOfPartType.Name = "sizeOfPartType";
             this.helpProvider1.SetShowHelp(this.sizeOfPartType, false);
             this.sizeOfPartType.Size = new System.Drawing.Size(62, 21);
@@ -126,6 +126,7 @@
             // 
             // tabPage1
             // 
+            this.tabPage1.Controls.Add(this.groupBox2);
             this.tabPage1.Controls.Add(this.outDirGroupBox);
             this.tabPage1.Controls.Add(this.ramEcoGroupBox);
             this.tabPage1.Controls.Add(this.sourceGroupBox);
@@ -282,18 +283,16 @@
             this.separationSettingsGroupBox.Controls.Add(this.label1);
             this.separationSettingsGroupBox.Controls.Add(this.sizeOfPartType);
             this.separationSettingsGroupBox.Controls.Add(this.sizeOfPart);
-            this.separationSettingsGroupBox.Controls.Add(this.enableChekingParts);
-            this.separationSettingsGroupBox.Controls.Add(this.enableChekingFile);
-            this.separationSettingsGroupBox.Location = new System.Drawing.Point(387, 102);
+            this.separationSettingsGroupBox.Location = new System.Drawing.Point(387, 83);
             this.separationSettingsGroupBox.Name = "separationSettingsGroupBox";
-            this.separationSettingsGroupBox.Size = new System.Drawing.Size(225, 189);
+            this.separationSettingsGroupBox.Size = new System.Drawing.Size(225, 147);
             this.separationSettingsGroupBox.TabIndex = 2;
             this.separationSettingsGroupBox.TabStop = false;
             this.separationSettingsGroupBox.Text = "Настройки разделения";
             // 
             // partNameBox
             // 
-            this.partNameBox.Location = new System.Drawing.Point(9, 157);
+            this.partNameBox.Location = new System.Drawing.Point(8, 113);
             this.partNameBox.Name = "partNameBox";
             this.partNameBox.Size = new System.Drawing.Size(210, 20);
             this.partNameBox.TabIndex = 1002;
@@ -302,7 +301,7 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(6, 137);
+            this.label4.Location = new System.Drawing.Point(5, 93);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(178, 13);
             this.label4.TabIndex = 1001;
@@ -311,7 +310,7 @@
             // switchSizeInput
             // 
             this.switchSizeInput.AutoSize = true;
-            this.switchSizeInput.Location = new System.Drawing.Point(6, 112);
+            this.switchSizeInput.Location = new System.Drawing.Point(5, 68);
             this.switchSizeInput.Name = "switchSizeInput";
             this.switchSizeInput.Size = new System.Drawing.Size(196, 13);
             this.switchSizeInput.TabIndex = 1000;
@@ -322,7 +321,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(6, 65);
+            this.label1.Location = new System.Drawing.Point(5, 21);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(112, 13);
             this.label1.TabIndex = 999;
@@ -345,63 +344,30 @@
             "1024",
             "2048",
             "4096"});
-            this.sizeOfPart.Location = new System.Drawing.Point(7, 85);
+            this.sizeOfPart.Location = new System.Drawing.Point(6, 41);
             this.sizeOfPart.Name = "sizeOfPart";
             this.sizeOfPart.Size = new System.Drawing.Size(143, 21);
             this.sizeOfPart.TabIndex = 2;
             // 
-            // enableChekingParts
-            // 
-            this.enableChekingParts.AutoSize = true;
-            this.enableChekingParts.Location = new System.Drawing.Point(6, 42);
-            this.enableChekingParts.Name = "enableChekingParts";
-            this.enableChekingParts.Size = new System.Drawing.Size(215, 17);
-            this.enableChekingParts.TabIndex = 1;
-            this.enableChekingParts.Text = "Проверка целостности частей файла";
-            this.enableChekingParts.UseVisualStyleBackColor = true;
-            // 
-            // enableChekingFile
-            // 
-            this.enableChekingFile.AutoSize = true;
-            this.enableChekingFile.Location = new System.Drawing.Point(6, 19);
-            this.enableChekingFile.Name = "enableChekingFile";
-            this.enableChekingFile.Size = new System.Drawing.Size(178, 17);
-            this.enableChekingFile.TabIndex = 0;
-            this.enableChekingFile.Text = "Проверка целостности файла";
-            this.enableChekingFile.UseVisualStyleBackColor = true;
-            // 
             // checkGroupBox
             // 
-            this.checkGroupBox.Controls.Add(this.enableMultiHashCheck);
             this.checkGroupBox.Controls.Add(this.enableMd5Check);
             this.checkGroupBox.Controls.Add(this.disableHash);
             this.checkGroupBox.Location = new System.Drawing.Point(387, 6);
             this.checkGroupBox.Name = "checkGroupBox";
-            this.checkGroupBox.Size = new System.Drawing.Size(226, 90);
+            this.checkGroupBox.Size = new System.Drawing.Size(226, 71);
             this.checkGroupBox.TabIndex = 1;
             this.checkGroupBox.TabStop = false;
             this.checkGroupBox.Text = "Проверка целостности";
-            // 
-            // enableMultiHashCheck
-            // 
-            this.enableMultiHashCheck.AutoSize = true;
-            this.enableMultiHashCheck.Enabled = false;
-            this.enableMultiHashCheck.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.enableMultiHashCheck.Location = new System.Drawing.Point(6, 65);
-            this.enableMultiHashCheck.Name = "enableMultiHashCheck";
-            this.enableMultiHashCheck.Size = new System.Drawing.Size(144, 17);
-            this.enableMultiHashCheck.TabIndex = 2;
-            this.enableMultiHashCheck.Text = "MultiHash (Coming Soon)";
-            this.enableMultiHashCheck.UseVisualStyleBackColor = true;
             // 
             // enableMd5Check
             // 
             this.enableMd5Check.AutoSize = true;
             this.enableMd5Check.Location = new System.Drawing.Point(6, 42);
             this.enableMd5Check.Name = "enableMd5Check";
-            this.enableMd5Check.Size = new System.Drawing.Size(192, 17);
+            this.enableMd5Check.Size = new System.Drawing.Size(101, 17);
             this.enableMd5Check.TabIndex = 1;
-            this.enableMd5Check.Text = "Полный MD5 (ЕСТ МНОГО ОЗУ!)";
+            this.enableMd5Check.Text = "MD5 Checksum";
             this.enableMd5Check.UseVisualStyleBackColor = true;
             // 
             // disableHash
@@ -455,6 +421,27 @@
             this.tabControl1.Size = new System.Drawing.Size(627, 372);
             this.tabControl1.TabIndex = 1;
             // 
+            // groupBox2
+            // 
+            this.groupBox2.Controls.Add(this.importFileBuilder);
+            this.groupBox2.Enabled = false;
+            this.groupBox2.Location = new System.Drawing.Point(387, 236);
+            this.groupBox2.Name = "groupBox2";
+            this.groupBox2.Size = new System.Drawing.Size(226, 55);
+            this.groupBox2.TabIndex = 2;
+            this.groupBox2.TabStop = false;
+            this.groupBox2.Text = "Сборщик файла (Soon...)";
+            // 
+            // importFileBuilder
+            // 
+            this.importFileBuilder.AutoSize = true;
+            this.importFileBuilder.Location = new System.Drawing.Point(8, 24);
+            this.importFileBuilder.Name = "importFileBuilder";
+            this.importFileBuilder.Size = new System.Drawing.Size(200, 17);
+            this.importFileBuilder.TabIndex = 2;
+            this.importFileBuilder.Text = "Добавить в папку сборщик файла";
+            this.importFileBuilder.UseVisualStyleBackColor = true;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -484,6 +471,8 @@
             this.checkGroupBox.PerformLayout();
             this.groupBox1.ResumeLayout(false);
             this.tabControl1.ResumeLayout(false);
+            this.groupBox2.ResumeLayout(false);
+            this.groupBox2.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -502,10 +491,7 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.ComboBox sizeOfPartType;
         private System.Windows.Forms.ComboBox sizeOfPart;
-        private System.Windows.Forms.CheckBox enableChekingParts;
-        private System.Windows.Forms.CheckBox enableChekingFile;
         private System.Windows.Forms.GroupBox checkGroupBox;
-        private System.Windows.Forms.RadioButton enableMultiHashCheck;
         private System.Windows.Forms.RadioButton enableMd5Check;
         private System.Windows.Forms.RadioButton disableHash;
         private System.Windows.Forms.GroupBox groupBox1;
@@ -529,6 +515,8 @@
         private System.Windows.Forms.OpenFileDialog openFileDialog;
         private System.Windows.Forms.FolderBrowserDialog folderBrowserDialog;
         private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.GroupBox groupBox2;
+        private System.Windows.Forms.CheckBox importFileBuilder;
     }
 }
 

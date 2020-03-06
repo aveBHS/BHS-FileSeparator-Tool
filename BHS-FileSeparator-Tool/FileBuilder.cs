@@ -43,25 +43,15 @@ namespace BHS_FileSeparator_Tool
         public long FileSize { get { return size; } set { size = value; } }
         public List<Part> Parts { get { return parts; } set { parts = value; } }
 
-        public void CalcMD5(string path)
+        public static string CalcMD5(string path)
         {
-            using (MD5 md5 = MD5.Create())
+            using (var md5 = MD5.Create())
             {
-                byte[] data = new byte[size];
-                FileStream stream = new FileStream(path + fileName, FileMode.Open);
-                stream.Read(data, 0, (int)stream.Length);
-                stream.Close();
-
-                byte[] md5hash = md5.ComputeHash(data);
-
-                StringBuilder sBuilder = new StringBuilder();
-
-                for (int i = 0; i < md5hash.Length; i++)
+                using (var stream = File.OpenRead(path))
                 {
-                    sBuilder.Append(md5hash[i].ToString("x2"));
+                    var hash = md5.ComputeHash(stream);
+                    return BitConverter.ToString(hash).Replace("-", "").ToLowerInvariant();
                 }
-
-                md5Hash = sBuilder.ToString();
             }
         }
 

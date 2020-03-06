@@ -98,6 +98,7 @@ namespace BHS_FileSeparator_Tool
                 UpdateGUI(true);
                 return;
             }
+            file.Close();
 
             Thread separation = new Thread(new ThreadStart(Separation));
             separation.IsBackground = true;
@@ -114,7 +115,7 @@ namespace BHS_FileSeparator_Tool
             if (lockGUI)
             {
                 separationProgress.Style = ProgressBarStyle.Blocks;
-                separationProgress.Value = 0;
+                separationProgress.Value -= separationProgress.Value;
             }
             else
             {
@@ -157,7 +158,7 @@ namespace BHS_FileSeparator_Tool
                 }
                 else
                 {
-                    if (byteCount < int.MaxValue) lastBytes = new byte[int.MaxValue];
+                    if (byteCount > int.MaxValue) lastBytes = new byte[int.MaxValue];
                     else lastBytes = new byte[byteCount];
                 }
 
@@ -167,7 +168,7 @@ namespace BHS_FileSeparator_Tool
                 Invoke(new Action(() => { separationProgress.Value += 10; }));
 
                 int onePartProcent = 75 / partCount;
-                FileBuilder fileBuilder = new FileBuilder(openFileDialog.FileName.Split('\\')[0], file.Length, byteCount);
+                FileBuilder fileBuilder = new FileBuilder(openFileDialog.SafeFileName, file.Length, byteCount);
                 string partName = partNameBox.Text.Replace("#", "{0}");
 
                 for (int i = 0; i < partCount; i++)
@@ -249,6 +250,8 @@ namespace BHS_FileSeparator_Tool
                             part.WriteByte(folderToSeparation + string.Format(partName, i + 1), lastBytes);
                         }
                     }
+                    if (enableMd5Check.Checked)
+                        part.MD5Hash = FileBuilder.CalcMD5(folderToSeparation + string.Format(partName, i + 1));
                     fileBuilder.AddPart(part);
                     Invoke(new Action(() => { separationProgress.Value += onePartProcent; }));
                 }
@@ -256,14 +259,10 @@ namespace BHS_FileSeparator_Tool
                 Invoke(new Action(() => { separationProgress.Value = 80; }));
                 file.Close();
 
-                if (enableMd5Check.Checked)
-                {
-                    helpBar.Text = "Шаг " + ++step + ": создание сборочного файла...";
-                    fileBuilder.CalcMD5(folderToSeparation);
-                }
+                helpBar.Text = "Шаг " + ++step + ": создание сборочного файла...";
+                if (enableMd5Check.Checked) fileBuilder.MD5Hash = FileBuilder.CalcMD5(fileToSeparation);
 
                 Invoke(new Action(() => { separationProgress.Value += 10; }));
-                helpBar.Text = "Шаг " + step + ": создание сборочного файла...";
 
                 XmlSerializer xml = new XmlSerializer(typeof(FileBuilder));
                 StreamWriter builderFile = new StreamWriter(folderToSeparation + ".build");
