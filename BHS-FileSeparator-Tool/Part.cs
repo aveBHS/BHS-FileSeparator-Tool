@@ -9,25 +9,22 @@ namespace BHS_FileSeparator_Tool
     public class Part : IDisposable
     {
         private int size;
-        private string md5Hash;
+        //private string md5Hash;
         private string fileName;
 
-        public Part()
-        {
-
-        }
+        public Part(){ }
 
         public Part(int size, byte[] bytes, string fileName)
         {
             this.size = size;
             this.fileName = fileName;
-            md5Hash = PartMD5(bytes);
+            //md5Hash = PartMD5(bytes);
         }
 
-        public void Write(string file, byte[] bytes)
+        public void WriteByte(string file, byte byteForWrite)
         {
-            FileStream partFile = new FileStream(file, FileMode.Create);
-            partFile.Write(bytes, 0, this.size);
+            FileStream partFile = new FileStream(file, FileMode.Append);
+            partFile.Write(new byte[byteForWrite], 0, 1);
             partFile.Close();
         }
 
@@ -41,14 +38,15 @@ namespace BHS_FileSeparator_Tool
 
         public void Dispose() { }
 
-        public string MD5Hash
+        /*public string MD5Hash
         {
             get
             {
                 return md5Hash;
             }
             set { md5Hash = value; }
-        }
+        }*/
+
         public string FileName { get { return fileName; } set { fileName = value; } }
         public int Size { get { return size; } set { size = value; } }
 
