@@ -57,9 +57,30 @@ namespace Builder
                     ramRange = 134217728;
                 }
                 Console.WriteLine($"{Environment.NewLine}Starting building file...");
-                builder.Build(builder.FileName, ramRange);
+                if(!builder.Build(builder.FileName, ramRange))
+                {
+                    Console.WriteLine($"{Environment.NewLine}Building failed! {builder.Exception} Press any key to exit.");
+                    Console.ReadKey();
+                    return;
+                }
 
-                Console.WriteLine($"Building successfully complated!{Environment.NewLine}Press any key to exit.");
+                bool success = true;
+                if (!string.IsNullOrWhiteSpace(builder.MD5Hash))
+                {
+                    Console.Write($"Building complated, checking checksum... ");
+                    if(builder.MD5Hash == FileBuilder.CalcMD5(builder.FileName))
+                    {
+                        Console.Write("[OK]");
+                    }
+                    else
+                    {
+                        Console.Write("[FAILED]");
+                    }
+                }
+                if(success)
+                    Console.WriteLine($"{Environment.NewLine}Building successfully complated! Press any key to exit.");
+                else
+                    Console.WriteLine($"{Environment.NewLine}Building failed! Checksum checking is failed! Press any key to exit.");
                 Console.ReadKey();
                 return;
             }

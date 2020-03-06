@@ -15,6 +15,7 @@ namespace Builder
         private int partsCount;
         private string md5Hash = String.Empty;
         private long partSize;
+        private string exception;
 
         public FileBuilder() { }
 
@@ -38,6 +39,7 @@ namespace Builder
 
         public string FileName { get { return fileName; } set { fileName = value; } }
         public string MD5Hash { get { return md5Hash; } set { md5Hash = value; } }
+        public string Exception { get { return exception; } }
         public int PartsCount { get => partsCount; set => partsCount = value; }
         public long PartSize { get => partSize; set { partSize = value; } }
         public long FileSize { get { return size; } set { size = value; } }
@@ -61,13 +63,37 @@ namespace Builder
             PartsCount++;
         }
 
-        public void Build(string path, int ramRange)
+        public bool Build(string path, int ramRange)
         {
             string[] partsMassive = new string[partsCount];
 
             for (int i = 0; i < partsCount; i++)
             {
-                partsMassive[i] = parts[i].FileName;
+                if (File.Exists(parts[i].FileName))
+                {
+                    if (FileBuilder.CalcMD5(parts[i].FileName) == parts[i].MD5Hash)
+                    {
+                        partsMassive[i] = parts[i].FileName;
+                        continue;
+                    }
+                    else
+                    {
+                        if (string.IsNullOrEmpty(parts[i].MD5Hash))
+                        {
+                            Console.WriteLine($"WARGIN! Part #{i + 1} have NO checksum! It skipped for checking!");
+                            partsMassive[i] = parts[i].FileName;
+                            continue;
+                        }
+                        this.exception = $"Checksum checking part #{i + 1} is failed!";
+                        return false;
+                    }
+                }
+                else
+                {
+                    this.exception = $"Can't find part #{i + 1}. File name must be - \"{parts[i].FileName}\"!";
+                    return false;
+                }
+
             }
 
             byte[] buffer = null;
@@ -99,6 +125,8 @@ namespace Builder
                 Console.WriteLine($"-- Writed part #{i + 1} {source.Length} bytes");
                 source.Close();
             }
-        }
+            outFile.Close();
+            return true;
+        } 
     }
 }
