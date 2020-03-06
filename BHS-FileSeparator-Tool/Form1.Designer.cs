@@ -299,16 +299,16 @@
             this.partName.Name = "partName";
             this.partName.Size = new System.Drawing.Size(210, 20);
             this.partName.TabIndex = 1002;
-            this.partName.Text = "data<i>.bin";
+            this.partName.Text = "part#.bin";
             // 
             // label4
             // 
             this.label4.AutoSize = true;
             this.label4.Location = new System.Drawing.Point(6, 137);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(185, 13);
+            this.label4.Size = new System.Drawing.Size(178, 13);
             this.label4.TabIndex = 1001;
-            this.label4.Text = "Название частей (обязательно <i>)";
+            this.label4.Text = "Название частей (обязательно #)";
             // 
             // switchSizeInput
             // 
