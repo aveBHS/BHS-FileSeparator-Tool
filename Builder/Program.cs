@@ -24,7 +24,7 @@ namespace Builder
             Console.WriteLine($"-- File name: {builder.FileName}");
             Console.WriteLine($"-- File size: {builder.FileSize} bytes");
             Console.WriteLine($"-- Part size: {builder.PartSize} bytes");
-            Console.WriteLine($"-- Parts count: {builder.PartsCount} bytes");
+            Console.WriteLine($"-- Parts count: {builder.PartsCount}");
             if(string.IsNullOrWhiteSpace(builder.MD5Hash))
                 Console.WriteLine($"-- MD5 Checksum: No");
             else
@@ -82,15 +82,15 @@ namespace Builder
                     Console.WriteLine($"{Environment.NewLine}WARGIN! File have NO checksum! Can't check it!");
                 }
                 if(success)
-                    Console.WriteLine($"{Environment.NewLine}Building successfully complated! Press any key to exit.");
+                    Console.WriteLine($"{Environment.NewLine}{Environment.NewLine}Building successfully complated! Press any key to exit.");
                 else
-                    Console.WriteLine($"{Environment.NewLine}Building failed! Checksum checking is failed! Press any key to exit.");
+                    Console.WriteLine($"{Environment.NewLine}{Environment.NewLine}Building failed! Checksum checking is failed! Press any key to exit.");
                 Console.ReadKey();
                 return;
             }
             else
             {
-                Console.WriteLine($"{Environment.NewLine}Aborted by user.{Environment.NewLine}Press any key to exit.");
+                Console.WriteLine($"{Environment.NewLine}{Environment.NewLine}Aborted by user.{Environment.NewLine}Press any key to exit.");
                 Console.ReadKey();
             }
         }
