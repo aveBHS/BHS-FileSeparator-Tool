@@ -36,6 +36,8 @@
             this.notifyIcon1 = new System.Windows.Forms.NotifyIcon(this.components);
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.importFileBuilder = new System.Windows.Forms.CheckBox();
             this.outDirGroupBox = new System.Windows.Forms.GroupBox();
             this.browsreOutDir = new System.Windows.Forms.Button();
             this.label3 = new System.Windows.Forms.Label();
@@ -64,10 +66,30 @@
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.folderBrowserDialog = new System.Windows.Forms.FolderBrowserDialog();
-            this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.importFileBuilder = new System.Windows.Forms.CheckBox();
+            this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.button1 = new System.Windows.Forms.Button();
+            this.label7 = new System.Windows.Forms.Label();
+            this.outFileUrl = new System.Windows.Forms.TextBox();
+            this.groupBox4 = new System.Windows.Forms.GroupBox();
+            this.button2 = new System.Windows.Forms.Button();
+            this.label8 = new System.Windows.Forms.Label();
+            this.buildFileUrl = new System.Windows.Forms.TextBox();
+            this.groupBox5 = new System.Windows.Forms.GroupBox();
+            this.radioButton1 = new System.Windows.Forms.RadioButton();
+            this.radioButton2 = new System.Windows.Forms.RadioButton();
+            this.groupBox6 = new System.Windows.Forms.GroupBox();
+            this.startBuildingButton = new System.Windows.Forms.Button();
+            this.buildingProgress = new System.Windows.Forms.ProgressBar();
+            this.groupBox7 = new System.Windows.Forms.GroupBox();
+            this.outFileNameLabel = new System.Windows.Forms.Label();
+            this.outFileSizeLabel = new System.Windows.Forms.Label();
+            this.outFilePartsCountLabel = new System.Windows.Forms.Label();
+            this.outFilePartSizeLabel = new System.Windows.Forms.Label();
+            this.outFileChecksumLabel = new System.Windows.Forms.Label();
             this.statusStrip1.SuspendLayout();
+            this.tabPage2.SuspendLayout();
             this.tabPage1.SuspendLayout();
+            this.groupBox2.SuspendLayout();
             this.outDirGroupBox.SuspendLayout();
             this.ramEcoGroupBox.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.ramEcoTrackBar)).BeginInit();
@@ -76,7 +98,11 @@
             this.checkGroupBox.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.tabControl1.SuspendLayout();
-            this.groupBox2.SuspendLayout();
+            this.groupBox3.SuspendLayout();
+            this.groupBox4.SuspendLayout();
+            this.groupBox5.SuspendLayout();
+            this.groupBox6.SuspendLayout();
+            this.groupBox7.SuspendLayout();
             this.SuspendLayout();
             // 
             // statusStrip1
@@ -116,6 +142,11 @@
             // 
             // tabPage2
             // 
+            this.tabPage2.Controls.Add(this.groupBox7);
+            this.tabPage2.Controls.Add(this.groupBox3);
+            this.tabPage2.Controls.Add(this.groupBox4);
+            this.tabPage2.Controls.Add(this.groupBox5);
+            this.tabPage2.Controls.Add(this.groupBox6);
             this.tabPage2.Location = new System.Drawing.Point(4, 22);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
@@ -141,6 +172,27 @@
             this.tabPage1.Text = "Разборка файлов";
             this.tabPage1.UseVisualStyleBackColor = true;
             // 
+            // groupBox2
+            // 
+            this.groupBox2.Controls.Add(this.importFileBuilder);
+            this.groupBox2.Enabled = false;
+            this.groupBox2.Location = new System.Drawing.Point(387, 236);
+            this.groupBox2.Name = "groupBox2";
+            this.groupBox2.Size = new System.Drawing.Size(226, 55);
+            this.groupBox2.TabIndex = 2;
+            this.groupBox2.TabStop = false;
+            this.groupBox2.Text = "Сборщик файла (Soon...)";
+            // 
+            // importFileBuilder
+            // 
+            this.importFileBuilder.AutoSize = true;
+            this.importFileBuilder.Location = new System.Drawing.Point(8, 24);
+            this.importFileBuilder.Name = "importFileBuilder";
+            this.importFileBuilder.Size = new System.Drawing.Size(200, 17);
+            this.importFileBuilder.TabIndex = 2;
+            this.importFileBuilder.Text = "Добавить в папку сборщик файла";
+            this.importFileBuilder.UseVisualStyleBackColor = true;
+            // 
             // outDirGroupBox
             // 
             this.outDirGroupBox.Controls.Add(this.browsreOutDir);
@@ -155,7 +207,7 @@
             // 
             // browsreOutDir
             // 
-            this.browsreOutDir.Location = new System.Drawing.Point(294, 35);
+            this.browsreOutDir.Location = new System.Drawing.Point(294, 36);
             this.browsreOutDir.Name = "browsreOutDir";
             this.browsreOutDir.Size = new System.Drawing.Size(75, 23);
             this.browsreOutDir.TabIndex = 1002;
@@ -205,7 +257,6 @@
             // ramEcoLabel
             // 
             this.ramEcoLabel.AutoSize = true;
-            this.ramEcoLabel.Enabled = false;
             this.ramEcoLabel.Location = new System.Drawing.Point(316, 46);
             this.ramEcoLabel.Name = "ramEcoLabel";
             this.ramEcoLabel.RightToLeft = System.Windows.Forms.RightToLeft.No;
@@ -218,7 +269,6 @@
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Enabled = false;
             this.label5.Location = new System.Drawing.Point(6, 46);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(304, 13);
@@ -250,7 +300,7 @@
             // 
             // browseFileUrl
             // 
-            this.browseFileUrl.Location = new System.Drawing.Point(294, 34);
+            this.browseFileUrl.Location = new System.Drawing.Point(294, 35);
             this.browseFileUrl.Name = "browseFileUrl";
             this.browseFileUrl.Size = new System.Drawing.Size(75, 23);
             this.browseFileUrl.TabIndex = 1002;
@@ -421,28 +471,202 @@
             this.tabControl1.Size = new System.Drawing.Size(627, 372);
             this.tabControl1.TabIndex = 1;
             // 
-            // groupBox2
+            // groupBox3
             // 
-            this.groupBox2.Controls.Add(this.importFileBuilder);
-            this.groupBox2.Enabled = false;
-            this.groupBox2.Location = new System.Drawing.Point(387, 236);
-            this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(226, 55);
-            this.groupBox2.TabIndex = 2;
-            this.groupBox2.TabStop = false;
-            this.groupBox2.Text = "Сборщик файла (Soon...)";
+            this.groupBox3.Controls.Add(this.button1);
+            this.groupBox3.Controls.Add(this.label7);
+            this.groupBox3.Controls.Add(this.outFileUrl);
+            this.groupBox3.Location = new System.Drawing.Point(3, 83);
+            this.groupBox3.Name = "groupBox3";
+            this.groupBox3.Size = new System.Drawing.Size(378, 82);
+            this.groupBox3.TabIndex = 1007;
+            this.groupBox3.TabStop = false;
+            this.groupBox3.Text = "Выходная папка";
             // 
-            // importFileBuilder
+            // button1
             // 
-            this.importFileBuilder.AutoSize = true;
-            this.importFileBuilder.Location = new System.Drawing.Point(8, 24);
-            this.importFileBuilder.Name = "importFileBuilder";
-            this.importFileBuilder.Size = new System.Drawing.Size(200, 17);
-            this.importFileBuilder.TabIndex = 2;
-            this.importFileBuilder.Text = "Добавить в папку сборщик файла";
-            this.importFileBuilder.UseVisualStyleBackColor = true;
+            this.button1.Location = new System.Drawing.Point(294, 36);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(75, 23);
+            this.button1.TabIndex = 1002;
+            this.button1.Text = "Обзор";
+            this.button1.UseVisualStyleBackColor = true;
             // 
-            // Form1
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(3, 20);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(73, 13);
+            this.label7.TabIndex = 1001;
+            this.label7.Text = "Путь к папке";
+            // 
+            // outFileUrl
+            // 
+            this.outFileUrl.Location = new System.Drawing.Point(6, 38);
+            this.outFileUrl.Name = "outFileUrl";
+            this.outFileUrl.ReadOnly = true;
+            this.outFileUrl.Size = new System.Drawing.Size(282, 20);
+            this.outFileUrl.TabIndex = 0;
+            // 
+            // groupBox4
+            // 
+            this.groupBox4.Controls.Add(this.button2);
+            this.groupBox4.Controls.Add(this.label8);
+            this.groupBox4.Controls.Add(this.buildFileUrl);
+            this.groupBox4.Location = new System.Drawing.Point(3, 6);
+            this.groupBox4.Name = "groupBox4";
+            this.groupBox4.Size = new System.Drawing.Size(378, 71);
+            this.groupBox4.TabIndex = 1006;
+            this.groupBox4.TabStop = false;
+            this.groupBox4.Text = "Источник";
+            // 
+            // button2
+            // 
+            this.button2.Location = new System.Drawing.Point(294, 35);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(75, 23);
+            this.button2.TabIndex = 1002;
+            this.button2.Text = "Обзор";
+            this.button2.UseVisualStyleBackColor = true;
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Location = new System.Drawing.Point(3, 19);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(113, 13);
+            this.label8.TabIndex = 1001;
+            this.label8.Text = "Путь к файлу сборки";
+            // 
+            // buildFileUrl
+            // 
+            this.buildFileUrl.Location = new System.Drawing.Point(6, 37);
+            this.buildFileUrl.Name = "buildFileUrl";
+            this.buildFileUrl.ReadOnly = true;
+            this.buildFileUrl.Size = new System.Drawing.Size(282, 20);
+            this.buildFileUrl.TabIndex = 0;
+            // 
+            // groupBox5
+            // 
+            this.groupBox5.Controls.Add(this.radioButton1);
+            this.groupBox5.Controls.Add(this.radioButton2);
+            this.groupBox5.Location = new System.Drawing.Point(387, 6);
+            this.groupBox5.Name = "groupBox5";
+            this.groupBox5.Size = new System.Drawing.Size(226, 71);
+            this.groupBox5.TabIndex = 1005;
+            this.groupBox5.TabStop = false;
+            this.groupBox5.Text = "Проверка целостности";
+            // 
+            // radioButton1
+            // 
+            this.radioButton1.AutoSize = true;
+            this.radioButton1.Location = new System.Drawing.Point(6, 42);
+            this.radioButton1.Name = "radioButton1";
+            this.radioButton1.Size = new System.Drawing.Size(101, 17);
+            this.radioButton1.TabIndex = 1;
+            this.radioButton1.Text = "MD5 Checksum";
+            this.radioButton1.UseVisualStyleBackColor = true;
+            // 
+            // radioButton2
+            // 
+            this.radioButton2.AutoSize = true;
+            this.radioButton2.Checked = true;
+            this.radioButton2.Location = new System.Drawing.Point(6, 19);
+            this.radioButton2.Name = "radioButton2";
+            this.radioButton2.Size = new System.Drawing.Size(98, 17);
+            this.radioButton2.TabIndex = 0;
+            this.radioButton2.TabStop = true;
+            this.radioButton2.Text = "Не проверять ";
+            this.radioButton2.UseVisualStyleBackColor = true;
+            // 
+            // groupBox6
+            // 
+            this.groupBox6.Controls.Add(this.startBuildingButton);
+            this.groupBox6.Controls.Add(this.buildingProgress);
+            this.groupBox6.Location = new System.Drawing.Point(3, 297);
+            this.groupBox6.Name = "groupBox6";
+            this.groupBox6.Size = new System.Drawing.Size(613, 46);
+            this.groupBox6.TabIndex = 1004;
+            this.groupBox6.TabStop = false;
+            this.groupBox6.Text = "Прогресс";
+            // 
+            // startBuildingButton
+            // 
+            this.startBuildingButton.Location = new System.Drawing.Point(495, 17);
+            this.startBuildingButton.Name = "startBuildingButton";
+            this.startBuildingButton.Size = new System.Drawing.Size(112, 23);
+            this.startBuildingButton.TabIndex = 0;
+            this.startBuildingButton.Text = "Запуск";
+            this.startBuildingButton.UseVisualStyleBackColor = true;
+            // 
+            // buildingProgress
+            // 
+            this.buildingProgress.Location = new System.Drawing.Point(6, 17);
+            this.buildingProgress.Name = "buildingProgress";
+            this.buildingProgress.Size = new System.Drawing.Size(483, 23);
+            this.buildingProgress.TabIndex = 1;
+            // 
+            // groupBox7
+            // 
+            this.groupBox7.Controls.Add(this.outFileChecksumLabel);
+            this.groupBox7.Controls.Add(this.outFilePartSizeLabel);
+            this.groupBox7.Controls.Add(this.outFilePartsCountLabel);
+            this.groupBox7.Controls.Add(this.outFileSizeLabel);
+            this.groupBox7.Controls.Add(this.outFileNameLabel);
+            this.groupBox7.Location = new System.Drawing.Point(3, 171);
+            this.groupBox7.Name = "groupBox7";
+            this.groupBox7.Size = new System.Drawing.Size(378, 120);
+            this.groupBox7.TabIndex = 1008;
+            this.groupBox7.TabStop = false;
+            this.groupBox7.Text = "Информация о собираемом файле";
+            // 
+            // outFileNameLabel
+            // 
+            this.outFileNameLabel.AutoSize = true;
+            this.outFileNameLabel.Location = new System.Drawing.Point(6, 21);
+            this.outFileNameLabel.Name = "outFileNameLabel";
+            this.outFileNameLabel.Size = new System.Drawing.Size(122, 13);
+            this.outFileNameLabel.TabIndex = 1001;
+            this.outFileNameLabel.Text = "Имя исходного файла:";
+            // 
+            // outFileSizeLabel
+            // 
+            this.outFileSizeLabel.AutoSize = true;
+            this.outFileSizeLabel.Location = new System.Drawing.Point(6, 40);
+            this.outFileSizeLabel.Name = "outFileSizeLabel";
+            this.outFileSizeLabel.Size = new System.Drawing.Size(139, 13);
+            this.outFileSizeLabel.TabIndex = 1002;
+            this.outFileSizeLabel.Text = "Размер исходного файла:";
+            // 
+            // outFilePartsCountLabel
+            // 
+            this.outFilePartsCountLabel.AutoSize = true;
+            this.outFilePartsCountLabel.Location = new System.Drawing.Point(6, 58);
+            this.outFilePartsCountLabel.Name = "outFilePartsCountLabel";
+            this.outFilePartsCountLabel.Size = new System.Drawing.Size(81, 13);
+            this.outFilePartsCountLabel.TabIndex = 1003;
+            this.outFilePartsCountLabel.Text = "Кол-во частей:";
+            // 
+            // outFilePartSizeLabel
+            // 
+            this.outFilePartSizeLabel.AutoSize = true;
+            this.outFilePartSizeLabel.Location = new System.Drawing.Point(6, 76);
+            this.outFilePartSizeLabel.Name = "outFilePartSizeLabel";
+            this.outFilePartSizeLabel.Size = new System.Drawing.Size(126, 13);
+            this.outFilePartSizeLabel.TabIndex = 1004;
+            this.outFilePartSizeLabel.Text = "Размер обычной части:";
+            // 
+            // outFileChecksumLabel
+            // 
+            this.outFileChecksumLabel.AutoSize = true;
+            this.outFileChecksumLabel.Location = new System.Drawing.Point(6, 94);
+            this.outFileChecksumLabel.Name = "outFileChecksumLabel";
+            this.outFileChecksumLabel.Size = new System.Drawing.Size(137, 13);
+            this.outFileChecksumLabel.TabIndex = 1005;
+            this.outFileChecksumLabel.Text = "Есть хеши для проверки: ";
+            // 
+            // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -452,12 +676,15 @@
             this.MaximizeBox = false;
             this.MaximumSize = new System.Drawing.Size(643, 433);
             this.MinimumSize = new System.Drawing.Size(643, 433);
-            this.Name = "Form1";
+            this.Name = "MainForm";
             this.Text = "BHS FileSeparator Tool";
             this.Load += new System.EventHandler(this.Form1_Load);
             this.statusStrip1.ResumeLayout(false);
             this.statusStrip1.PerformLayout();
+            this.tabPage2.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
+            this.groupBox2.ResumeLayout(false);
+            this.groupBox2.PerformLayout();
             this.outDirGroupBox.ResumeLayout(false);
             this.outDirGroupBox.PerformLayout();
             this.ramEcoGroupBox.ResumeLayout(false);
@@ -471,8 +698,15 @@
             this.checkGroupBox.PerformLayout();
             this.groupBox1.ResumeLayout(false);
             this.tabControl1.ResumeLayout(false);
-            this.groupBox2.ResumeLayout(false);
-            this.groupBox2.PerformLayout();
+            this.groupBox3.ResumeLayout(false);
+            this.groupBox3.PerformLayout();
+            this.groupBox4.ResumeLayout(false);
+            this.groupBox4.PerformLayout();
+            this.groupBox5.ResumeLayout(false);
+            this.groupBox5.PerformLayout();
+            this.groupBox6.ResumeLayout(false);
+            this.groupBox7.ResumeLayout(false);
+            this.groupBox7.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -517,6 +751,26 @@
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.CheckBox importFileBuilder;
+        private System.Windows.Forms.GroupBox groupBox3;
+        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.TextBox outFileUrl;
+        private System.Windows.Forms.GroupBox groupBox4;
+        private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.TextBox buildFileUrl;
+        private System.Windows.Forms.GroupBox groupBox5;
+        private System.Windows.Forms.RadioButton radioButton1;
+        private System.Windows.Forms.RadioButton radioButton2;
+        private System.Windows.Forms.GroupBox groupBox6;
+        private System.Windows.Forms.Button startBuildingButton;
+        private System.Windows.Forms.ProgressBar buildingProgress;
+        private System.Windows.Forms.GroupBox groupBox7;
+        private System.Windows.Forms.Label outFileChecksumLabel;
+        private System.Windows.Forms.Label outFilePartSizeLabel;
+        private System.Windows.Forms.Label outFilePartsCountLabel;
+        private System.Windows.Forms.Label outFileSizeLabel;
+        private System.Windows.Forms.Label outFileNameLabel;
     }
 }
 
