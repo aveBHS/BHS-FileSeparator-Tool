@@ -216,6 +216,8 @@ namespace BHS_FileSeparator_Tool
                                 lastPart.WriteByte(folderToSeparation + string.Format(partName, i + 1), lastBytes);
                             }
                         }
+                        if (enableMd5Check.Checked)
+                            lastPart.MD5Hash = FileBuilder.CalcMD5(folderToSeparation + string.Format(partName, i + 1));
                         fileBuilder.AddPart(lastPart);
                         break;
                     }
