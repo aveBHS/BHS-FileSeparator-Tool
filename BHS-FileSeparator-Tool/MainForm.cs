@@ -13,12 +13,12 @@ using System.Xml.Serialization;
 
 namespace BHS_FileSeparator_Tool
 {
-    public partial class Form1 : Form
+    public partial class MainForm : Form
     {
         string fileToSeparation = String.Empty;
         string folderToSeparation = String.Empty;
         public delegate void InvokeDelegate();
-        public Form1()
+        public MainForm()
         {
             InitializeComponent();
         }
