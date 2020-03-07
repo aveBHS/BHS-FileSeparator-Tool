@@ -67,12 +67,15 @@ namespace Builder
         {
             string[] partsMassive = new string[partsCount];
 
+            Console.WriteLine($"{Environment.NewLine}Checking part's checksums...");
+
             for (int i = 0; i < partsCount; i++)
             {
                 if (File.Exists(parts[i].FileName))
                 {
                     if (FileBuilder.CalcMD5(parts[i].FileName) == parts[i].MD5Hash)
                     {
+                        Console.WriteLine($"-- Part #{i + 1} successfully checked.");
                         partsMassive[i] = parts[i].FileName;
                         continue;
                     }
@@ -80,21 +83,23 @@ namespace Builder
                     {
                         if (string.IsNullOrEmpty(parts[i].MD5Hash))
                         {
-                            Console.WriteLine($"WARGIN! Part #{i + 1} have NO checksum! It skipped for checking!");
+                            Console.WriteLine($"-- WARGIN! Part #{i + 1} have NO checksum! It skipped for checking!");
                             partsMassive[i] = parts[i].FileName;
                             continue;
                         }
-                        this.exception = $"Checksum checking part #{i + 1} is failed!";
+                        this.exception = $"-- Checksum checking part #{i + 1} is failed!";
                         return false;
                     }
                 }
                 else
                 {
-                    this.exception = $"Can't find part #{i + 1}. File name must be - \"{parts[i].FileName}\"!";
+                    this.exception = $"-- Can't find part #{i + 1}. File name must be - \"{parts[i].FileName}\"!";
                     return false;
                 }
 
             }
+
+            Console.WriteLine($"{Environment.NewLine}Starting building file...");
 
             byte[] buffer = null;
             FileStream outFile = new FileStream(FileName, FileMode.Create);

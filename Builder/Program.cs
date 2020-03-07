@@ -56,7 +56,7 @@ namespace Builder
                     Console.WriteLine($"Invalid input, will be used standart range (128 MB).");
                     ramRange = 134217728;
                 }
-                Console.WriteLine($"{Environment.NewLine}Starting building file...");
+                
                 if(!builder.Build(builder.FileName, ramRange))
                 {
                     Console.WriteLine($"{Environment.NewLine}Building failed! {builder.Exception} Press any key to exit.");
@@ -75,6 +75,7 @@ namespace Builder
                     else
                     {
                         Console.Write("[FAILED]");
+                        success = false;
                     }
                 }
                 else
